@@ -1,0 +1,65 @@
+<html>
+
+		<head>
+				<title> Weather web service -- Try it now</title>
+				<link rel="stylesheet" href="{{ url_for('static', filename='css/weather.css') }}">
+		</head>
+
+		<body style="background-image: url({{ url_for('static', filename='images/clouds.jpg') }})">
+			<div class="flex-container">
+				{% if error is not defined %}
+					<p>IP: {{ address }}</p>
+					<p><img src="{{ country_flag }}" style="width: 20px; height: 20px">  {{ country }}, {{ city_name }}  (Latitude: {{ coords[0] }}, Longitude: {{ coords[1] }})</p>
+					<p>Weather at: {{ weather[0]['date'] }}, {{ time }}</p>
+					<br><br>
+					<table class="tg">
+						<tr>
+						    <th class="tg-0lax"></th>
+						    <th class="tg-0lax" colspan="3">Conditions</th>
+						    <th class="tg-0lax" colspan="5">Comfort</th>
+						    <th class="tg-0lax" colspan="2">Precipitation</th><!-- 
+						    <th class="tg-0lax" colspan="2">Sun</th> -->
+						</tr>
+
+						<tr>
+						    <td class="tg-0lax"><b>Day</b></td>
+						    <td class="tg-0lax"><b>Picture</b></td>
+						    <td class="tg-0lax"><b>Temperature</b></td>
+						    <td class="tg-0lax"><b>Weather</b></td>
+						    <td class="tg-0lax"><b>Feels like</b></td>
+						    <td class="tg-0lax"><b>Wind</b></td>
+						    <td class="tg-0lax"><b>Humidity</b></td>
+						    <td class="tg-0lax"><b>Snow</b></td>
+						    <td class="tg-0lax"><b>Visibility</b></td>
+						    <td class="tg-0lax"><b>Amount</b></td>
+						    <td class="tg-0lax"><b>Chance of Rain</b></td>
+<!-- 						    <td class="tg-0lax"><b>Sunrise</b></td>
+						    <td class="tg-0lax"><b>Sunset</b></td> -->
+						</tr>
+
+						{% for item in weather %}
+							<tr>
+								<td class="tg-0lax">{{ item['date'] }}</td>
+								<td class="tg-0lax"><img src="{{ item['descriptions']['url'] }}" style="width: 50px; height: 50px"> </td>
+								<td class="tg-0lax">{{ item['max_temp'] }} / {{ item['min_temp'] }} / {{ item['avg_temp'] }}° C</td>
+								<td class="tg-0lax">{{ item['descriptions']['conditions'] }}</td>
+								<td class="tg-0lax">{{ item['feels_like'] }}° C</td>
+								<td class="tg-0lax">{{ item['wind_speed'] }}%</td>
+								<td class="tg-0lax">{{ item['humidity'] }}%</td>
+								<td class="tg-0lax">{{ item['total_snow'] }} cm</td>
+								<td class="tg-0lax">{{ item['visibility'] }} km</td>
+								<td class="tg-0lax">{{ item['precipitations'] }} mm</td>
+								<td class="tg-0lax">{{ item['chance_of_rain'] }}%</td>
+<!-- 								<td class="tg-0lax">{{ item['sunrise'] }}</td>
+								<td class="tg-0lax">{{ item['sunset'] }}</td> -->
+							</tr>
+						{% endfor %}
+
+					</table>	
+				{% else %}
+					<p>Error: {{ error }}</p>
+				{% endif %}
+			</div>
+		</body>
+
+</html>

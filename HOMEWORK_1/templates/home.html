@@ -1,0 +1,17 @@
+<html>
+
+	<head>
+		<title> Weather web service -- Try it now</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+	</head>
+
+	<body style="background-image: url({{ url_for('static', filename='images/clouds.jpg') }})">
+		<div class="flex-container">
+			<image class="logo" src="{{ url_for('static', filename='images/home.png') }}"></image>
+			<input id="days" type="number" onkeydown="return event.keyCode !== 69" class="textbox" placeholder="Insert number of days..">
+			<button class="button" id="buttonSubmit" onclick="redirect_weather()">Get weather</button>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/functions.js') }}"></script>
+</html>
