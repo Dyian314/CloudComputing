@@ -17,8 +17,8 @@
 						    <th class="tg-0lax"></th>
 						    <th class="tg-0lax" colspan="3">Conditions</th>
 						    <th class="tg-0lax" colspan="5">Comfort</th>
-						    <th class="tg-0lax" colspan="2">Precipitation</th><!-- 
-						    <th class="tg-0lax" colspan="2">Sun</th> -->
+						    <th class="tg-0lax" colspan="2">Precipitation</th>
+						    <th class="tg-0lax" colspan="2">Sun</th>
 						</tr>
 
 						<tr>
@@ -33,8 +33,8 @@
 						    <td class="tg-0lax"><b>Visibility</b></td>
 						    <td class="tg-0lax"><b>Amount</b></td>
 						    <td class="tg-0lax"><b>Chance of Rain</b></td>
-<!-- 						    <td class="tg-0lax"><b>Sunrise</b></td>
-						    <td class="tg-0lax"><b>Sunset</b></td> -->
+						    <td class="tg-0lax"><b>Sunrise</b></td>
+						    <td class="tg-0lax"><b>Sunset</b></td>
 						</tr>
 
 						{% for item in weather %}
@@ -50,8 +50,8 @@
 								<td class="tg-0lax">{{ item['visibility'] }} km</td>
 								<td class="tg-0lax">{{ item['precipitations'] }} mm</td>
 								<td class="tg-0lax">{{ item['chance_of_rain'] }}%</td>
-<!-- 								<td class="tg-0lax">{{ item['sunrise'] }}</td>
-								<td class="tg-0lax">{{ item['sunset'] }}</td> -->
+								<td class="tg-0lax">{{ item['sunrise'] }}</td>
+								<td class="tg-0lax">{{ item['sunset'] }}</td>
 							</tr>
 						{% endfor %}
 

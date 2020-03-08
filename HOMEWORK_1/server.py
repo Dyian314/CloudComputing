@@ -60,7 +60,6 @@ def get_weather():
         format(api_key, info['latitude'], info['longitude'], days)
 
     response = requests.request("GET", url)
-    app.logger.debug(response.content)
     if response.status_code is 200:
         weather_info = json.loads(response.content)
         data = weather_info['data']['current_condition'][0]
