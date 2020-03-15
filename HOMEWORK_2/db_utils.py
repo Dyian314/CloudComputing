@@ -11,7 +11,7 @@ def get_actor_by_id(_id):
 
 
 def get_actor_by_name(name):
-    return None
+    return actors.find_one({'name': name})
 
 
 def delete_actor(_id):
@@ -19,7 +19,7 @@ def delete_actor(_id):
 
 
 def update_actor(_id, data):
-    new_object, err = get_actor_by_id(_id)
+    new_object = get_actor_by_id(_id)
 
     if 'name' in data:
         new_object['name'] = data['name']
@@ -33,7 +33,7 @@ def update_actor(_id, data):
     return actors.replace_one({'_id': ObjectId(_id)}, new_object, upsert=False), ''
 
 
-def insert_user(data):
+def insert_actor(data):
     if 'name' not in data:
         return None, "'name' is not present in the request"
     if 'age' not in data:
@@ -46,7 +46,37 @@ def insert_user(data):
         return None, "Invalid 'movies' type -- should be list"
 
     result = get_actor_by_name(data['name'])
-    if not result:
+    if result:
         return None, 'Entry \'{}\' exists already'.format(data['name'])
 
     return actors.insert_one(data), ''
+
+
+def update_collection(data):
+    count = 0
+    if not isinstance(data, list):
+        return None, 'Please provide a list of actors'
+
+    delete_actors()
+    for actor in data:
+        result = get_actor_by_name(actor['name'])
+        if not result:
+            actors.insert_one(actor)
+            count += 1
+
+    return count
+
+
+def get_actors():
+    actors_cursor = actors.find({'_id': {'$gt': ObjectId('0' * 24)}})
+    result = list()
+
+    for actor in actors_cursor:
+        result.append(actor)
+
+    return result
+
+
+def delete_actors():
+    delete_object = actors.delete_many({'_id': {'$gt': ObjectId('0' * 24)}})
+    return delete_object.deleted_count

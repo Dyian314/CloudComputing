@@ -6,7 +6,7 @@ import traceback
 
 
 def get_actor_response(_id):
-    result, err = get_actor_by_id(_id)
+    result = get_actor_by_id(_id)
 
     if result:
         response = Response(
@@ -87,7 +87,7 @@ def update_actor_response(_id, data):
 
 
 def delete_actor_response(_id):
-    result, err = delete_actor(_id)
+    result = delete_actor(_id)
 
     if result:
         response = Response(
@@ -122,9 +122,27 @@ def delete_actor_response(_id):
         return response
 
 
-def insert_user_response(data):
-    data = json.loads(data)
-    result, err = insert_user(data)
+def insert_actor_response(data):
+    try:
+        data = json.loads(data)
+
+    except json.decoder.JSONDecodeError:
+        response = Response(
+            json.dumps(
+                {
+                    'status': 400,
+                    'message': "Bad JSON Request"
+                },
+                indent=4,
+                default=str
+            ),
+            mimetype='application/json',
+            status=400
+        )
+
+        return response
+
+    result, err = insert_actor(data)
 
     if result:
         response = Response(
@@ -157,3 +175,87 @@ def insert_user_response(data):
         )
 
         return response
+
+
+def replace_actors_collection(data):
+    try:
+        data = json.loads(data)
+
+    except json.decoder.JSONDecodeError:
+        response = Response(
+            json.dumps(
+                {
+                    'status': 400,
+                    'message': "Bad JSON Request"
+                },
+                indent=4,
+                default=str
+            ),
+            mimetype='application/json',
+            status=400
+        )
+
+        return response
+
+    count = update_collection(data)
+    if count == 0:
+        response = Response(
+            json.dumps(
+                {
+                    'status': 200,
+                    'message': 'No new actors have been added (Database has been deleted)'
+                },
+                indent=4,
+                default=str
+            ),
+            mimetype='application/json',
+            status=200
+        )
+
+        return response
+
+    else:
+        response = Response(
+            json.dumps(
+                {
+                    'status': 200,
+                    'message': 'Collection \'actors\' has been successfully updated (Added {} new entries to collection)'
+                        .format(count)
+                },
+                indent=4,
+                default=str
+            ),
+            mimetype='application/json',
+            status=200
+        )
+
+        return response
+
+
+def get_actors_collection():
+    result = get_actors()
+    response = Response(
+        json.dumps(result, default=str, indent=4),
+        mimetype='application/json',
+        status=200
+    )
+
+    return response
+
+
+def delete_actors_collection():
+    result = delete_actors()
+    response = Response(
+        json.dumps(
+            {
+                'status': 200,
+                'message': "Deleted {} entries successfully".format(result)
+            },
+            default=str,
+            indent=4
+        ),
+        mimetype='application/json',
+        status=200
+    )
+
+    return response

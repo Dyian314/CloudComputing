@@ -13,17 +13,21 @@ def handle_collection_actors(request):
 
     if method == 'POST':
         data = request.data  # Adds items
-        response = insert_user_response(data)
+        response = insert_actor_response(data)
         return response
 
     elif method == 'PUT':  # Replaces collection
         data = request.data
+        response = replace_actors_collection(data)
+        return response
 
     elif method == 'GET':
-        pass
+        response = get_actors_collection()
+        return response
 
     elif method == 'DELETE':
-        pass
+        response = delete_actors_collection()
+        return response
 
 
 def handle_unique_actor(request):
